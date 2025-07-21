@@ -4,255 +4,165 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Bangunku - Menu Utama</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet" />
 <style>
-  /* Reset */
-  * {
-    box-sizing: border-box;
-  }
   body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: #f0f2f5;
-    color: #222;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    margin:0; background:#d3d7db; font-family: 'Poppins', sans-serif;
+    height: 100vh; display: flex; justify-content: center; align-items: center;
     user-select: none;
-    padding: 20px;
   }
-
-  #container {
-    max-width: 360px;
-    width: 100%;
-  }
-
-  h1 {
-    font-weight: 600;
-    font-size: 24px;
-    color: #1a3d7c;
-    text-align: center;
-    margin-bottom: 40px;
-    user-select: text;
-  }
-
   #menuUtama {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+    display: flex; flex-direction: column; gap: 50px; max-width: 250px; width: 100%;
   }
-
   .menu-item {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
-    cursor: pointer;
-    padding: 24px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    user-select: none;
+    background: #ffffffcc; border-radius: 16px; box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+    cursor: pointer; user-select: none;
+    display: flex; flex-direction: column; align-items: center; padding: 18px 20px;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
   }
-  .menu-item:hover,
-  .menu-item:focus {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  .menu-item:hover, .menu-item:focus {
+    box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+    transform: translateY(-5px);
     outline: none;
   }
-
   .menu-icon {
-    width: 64px;
-    height: 64px;
-    fill: #1a3d7c;
-    margin-bottom: 12px;
+    width: 80px; height: 80px; margin-bottom: 12px; fill: #1565c0;
   }
   .menu-text {
-    font-weight: 600;
-    font-size: 16px;
-    color: #1a3d7c;
+    font-weight: 700; font-size: 18px; color: #1565c0; user-select: none;
   }
 
-  /* Slide Menu kiri */
+  /* Slide menu kiri */
   #slideMenu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 280px;
-    max-width: 80vw;
-    height: 100%;
-    background: #ffffff;
-    box-shadow: 2px 0 18px rgba(0,0,0,0.15);
-    transform: translateX(-110%);
+    position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
+    background: #f5f7fa; box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+    transform: translateX(-100%);
     transition: transform 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    z-index: 15000;
-    padding: 20px;
+    z-index: 10000;
+    display: flex; flex-direction: column;
   }
   #slideMenu.show {
     transform: translateX(0);
   }
-  #slideMenu h2 {
-    font-weight: 700;
-    font-size: 22px;
-    color: #1a3d7c;
-    margin: 0 0 20px;
-    user-select: text;
+  #slideHeader {
+    padding: 20px; font-weight: 700; font-size: 20px; color: #1565c0;
+    border-bottom: 1px solid #ccc;
+    display: flex; justify-content: space-between; align-items: center;
   }
-  #slideOptions {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    flex-grow: 1;
+  #slideCloseBtn {
+    background: none; border: none; font-size: 24px; cursor: pointer;
+    color: #1565c0;
+  }
+  #proyekList {
+    list-style: none; padding: 10px 20px; margin: 0; flex-grow: 1;
     overflow-y: auto;
   }
-  #slideOptions li {
-    font-weight: 600;
-    font-size: 16px;
-    padding: 14px 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    color: #2957a7;
-    margin-bottom: 12px;
+  #proyekList li {
+    padding: 12px 10px; margin-bottom: 8px;
+    background: #e3ebfc; border-radius: 8px;
+    cursor: pointer; font-weight: 600; color: #1565c0;
     user-select: none;
     transition: background-color 0.2s ease;
   }
-  #slideOptions li:hover,
-  #slideOptions li:focus {
-    background-color: #d6e2ff;
-    outline: none;
-  }
-
-  #btnCloseSlide {
-    align-self: flex-end;
-    background: transparent;
-    border: none;
-    font-size: 26px;
-    cursor: pointer;
-    color: #555;
-    margin-bottom: 10px;
-    transition: color 0.2s ease;
-    user-select: none;
-  }
-  #btnCloseSlide:hover,
-  #btnCloseSlide:focus {
-    color: #1a3d7c;
+  #proyekList li:hover, #proyekList li:focus {
+    background: #b0c4f7;
     outline: none;
   }
 </style>
 </head>
 <body>
 
-<div id="container" role="main" aria-label="Menu Utama Bangunku">
-  <h1>Bangunku</h1>
-  <nav id="menuUtama" role="menu" aria-label="Menu Utama">
-    <div class="menu-item" data-feature="proyekBaru" tabindex="0" role="menuitem" aria-haspopup="true" aria-controls="slideMenu">
+  <main id="menuUtama" role="main" aria-label="Menu utama aplikasi Bangunku">
+    <div class="menu-item" id="btnProyekBaru" tabindex="0" role="button" aria-label="Mulai proyek baru">
       <svg class="menu-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-        <circle cx="32" cy="32" r="30" stroke="#1a3d7c" stroke-width="2" fill="none"/>
-        <line x1="32" y1="18" x2="32" y2="46" stroke="#1a3d7c" stroke-width="4" stroke-linecap="round"/>
-        <line x1="18" y1="32" x2="46" y2="32" stroke="#1a3d7c" stroke-width="4" stroke-linecap="round"/>
+        <rect x="28" y="12" width="8" height="40" rx="2"/>
+        <rect x="12" y="28" width="40" height="8" rx="2"/>
       </svg>
-      <span class="menu-text">Proyek Baru</span>
+      <div class="menu-text">Proyek Baru</div>
     </div>
 
-    <div class="menu-item" data-feature="bukaProyek" tabindex="0" role="menuitem" aria-haspopup="true" aria-controls="slideMenu">
+    <div class="menu-item" id="btnBukaProyek" tabindex="0" role="button" aria-label="Buka proyek yang tersimpan">
       <svg class="menu-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-        <rect x="10" y="16" width="44" height="32" rx="6" ry="6" stroke="#1a3d7c" stroke-width="2" fill="none"/>
-        <path d="M20 36h24M20 28h24" stroke="#1a3d7c" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="32" cy="44" r="3" fill="#1a3d7c"/>
+        <path d="M8 16h48v32H8z" fill="none" stroke="#1565c0" stroke-width="3" rx="6" ry="6"/>
+        <path d="M20 24h24v16H20z" fill="#1565c0" opacity="0.2"/>
+        <circle cx="32" cy="32" r="6" fill="none" stroke="#1565c0" stroke-width="3"/>
       </svg>
-      <span class="menu-text">Buka File Proyek</span>
+      <div class="menu-text">Buka File Proyek</div>
     </div>
+  </main>
+
+  <nav id="slideMenu" aria-label="Daftar proyek tersimpan">
+    <header id="slideHeader">
+      <span>Proyek Tersimpan</span>
+      <button id="slideCloseBtn" aria-label="Tutup menu proyek">&times;</button>
+    </header>
+    <ul id="proyekList" tabindex="0" aria-live="polite" aria-relevant="additions"></ul>
   </nav>
-</div>
-
-<nav id="slideMenu" aria-label="Menu Opsi">
-  <button id="btnCloseSlide" aria-label="Tutup Menu">&times;</button>
-  <h2 id="slideTitle">Menu</h2>
-  <ul id="slideOptions" tabindex="0"></ul>
-</nav>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const menuUtama = document.getElementById('menuUtama');
-  const slideMenu = document.getElementById('slideMenu');
-  const slideTitle = document.getElementById('slideTitle');
-  const slideOptions = document.getElementById('slideOptions');
-  const btnCloseSlide = document.getElementById('btnCloseSlide');
+  (function() {
+    const btnProyekBaru = document.getElementById('btnProyekBaru');
+    const btnBukaProyek = document.getElementById('btnBukaProyek');
+    const slideMenu = document.getElementById('slideMenu');
+    const slideCloseBtn = document.getElementById('slideCloseBtn');
+    const proyekList = document.getElementById('proyekList');
 
-  const fiturList = {
-    proyekBaru: [
-      "Perhitungan Bahan Pondasi",
-      "Perhitungan Perbesian Sloof",
-      "Perhitungan Dinding",
-      "Perhitungan Plester & Aci",
-      "Perhitungan Cat"
-    ],
-    bukaProyek: [] // nanti di-load dari localStorage
-  };
-
-  // Fungsi untuk load daftar proyek tersimpan ke fitur bukaProyek
-  function loadDaftarProyek() {
-    const daftar = JSON.parse(localStorage.getItem('daftarProyek') || '[]');
-    fiturList.bukaProyek = daftar.length > 0 ? daftar : ['Belum ada proyek tersimpan'];
-  }
-
-  menuUtama.addEventListener('click', e => {
-    let target = e.target;
-    while (target && !target.classList.contains('menu-item')) {
-      target = target.parentElement;
-    }
-    if (!target) return;
-
-    const fitur = target.getAttribute('data-feature');
-    if (!fitur) return;
-
-    if (fitur === 'bukaProyek') {
-      loadDaftarProyek();
+    // Load list proyek tersimpan dari localStorage
+    function loadProyekList() {
+      proyekList.innerHTML = '';
+      const data = JSON.parse(localStorage.getItem('bangunku_proyek_list') || '[]');
+      if (data.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = 'Belum ada proyek tersimpan';
+        li.style.cursor = 'default';
+        proyekList.appendChild(li);
+        return;
+      }
+      data.forEach(proyek => {
+        const li = document.createElement('li');
+        li.textContent = proyek.nama;
+        li.tabIndex = 0;
+        li.onclick = () => {
+          window.location.href = `proyek.html?id=${encodeURIComponent(proyek.id)}`;
+        };
+        li.onkeydown = (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            li.onclick();
+          }
+        };
+        proyekList.appendChild(li);
+      });
     }
 
-    slideTitle.textContent = fitur === 'proyekBaru' ? 'Pilih Perhitungan' : 'Proyek Tersimpan';
-    slideOptions.innerHTML = '';
+    btnProyekBaru.onclick = () => {
+      // Untuk proyek baru, kita buat ID baru unik dan nama default kosong
+      const newId = `proyek_${Date.now()}`;
+      // Simpan proyek kosong dulu
+      const proyekListData = JSON.parse(localStorage.getItem('bangunku_proyek_list') || '[]');
+      proyekListData.push({ id: newId, nama: 'Proyek Baru' });
+      localStorage.setItem('bangunku_proyek_list', JSON.stringify(proyekListData));
+      // Redirect ke halaman proyek.html dengan param id
+      window.location.href = `proyek.html?id=${encodeURIComponent(newId)}`;
+    };
 
-    fiturList[fitur].forEach(item => {
-      const li = document.createElement('li');
-      li.textContent = item;
-      li.tabIndex = 0;
+    btnBukaProyek.onclick = () => {
+      loadProyekList();
+      slideMenu.classList.add('show');
+      proyekList.focus();
+    };
 
-      li.onclick = () => {
-        if (fitur === 'proyekBaru') {
-          // buka halaman perhitungan, misal input_perhitungan.html
-          // kirim info jenis perhitungan lewat query string
-          const jenis = item.toLowerCase().replace(/ /g, '_').replace(/[&]/g,'dan');
-          window.location.href = `input_perhitungan.html?jenis=${encodeURIComponent(jenis)}`;
-        } else if (fitur === 'bukaProyek') {
-          if (item === 'Belum ada proyek tersimpan') return;
-          // buka halaman proyek dengan nama proyek
-          const encoded = encodeURIComponent(item);
-          window.location.href = `proyek.html?nama=${encoded}`;
-        }
-      };
+    slideCloseBtn.onclick = () => {
+      slideMenu.classList.remove('show');
+    };
 
-      li.onkeydown = e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          li.onclick();
-        }
-      };
-
-      slideOptions.appendChild(li);
+    // Keyboard accessibility
+    btnProyekBaru.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') btnProyekBaru.click();
     });
-
-    slideMenu.classList.add('show');
-  });
-
-  btnCloseSlide.addEventListener('click', () => {
-    slideMenu.classList.remove('show');
-  });
-});
+    btnBukaProyek.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') btnBukaProyek.click();
+    });
+  })();
 </script>
 
 </body>
