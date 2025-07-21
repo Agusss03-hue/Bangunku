@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bangunku</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Nunito', sans-serif;
+      background: #dce3e9;
+      color: #222;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 16px;
+    }
+
+    header {
+      font-size: 20px;
+      font-weight: 700;
+      color: #003366;
+      user-select: none;
+    }
+
+    #menuUtama {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 24px;
+      margin-top: auto;
+      margin-bottom: auto;
+      flex-wrap: wrap;
+    }
+
+    .menu-item {
+      width: 140px;
+      height: 140px;
+      background: #ffffff;
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .menu-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    }
+
+    .menu-icon {
+      width: 48px;
+      height: 48px;
+      fill: #007bff;
+      margin-bottom: 10px;
+    }
+
+    .menu-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #00376e;
+      text-align: center;
+    }
+
+    /* Slide Panel */
+    #slidePanel {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 85%;
+      max-width: 320px;
+      height: 100%;
+      background-color: #fff;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+      transition: left 0.3s ease;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #slidePanel.show {
+      left: 0;
+    }
+
+    #slideHeader {
+      padding: 18px;
+      font-size: 18px;
+      font-weight: 700;
+      border-bottom: 1px solid #ddd;
+      color: #004085;
+    }
+
+    #projectsList {
+      list-style: none;
+      padding: 12px 16px;
+      margin: 0;
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+
+    #projectsList li {
+      padding: 10px;
+      margin-bottom: 8px;
+      background: #f4f8fc;
+      border-radius: 6px;
+      font-weight: 600;
+      color: #007bff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    #projectsList li:hover {
+      background-color: #e1efff;
+    }
+
+    #projectsList button {
+      background: #dc3545;
+      border: none;
+      color: white;
+      padding: 5px 8px;
+      font-size: 13px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #btnClosePanel {
+      margin: 12px 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    footer {
+      font-size: 12px;
+      color: #777;
+      text-align: center;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header>Bangunku</header>
+
+  <div id="menuUtama">
+    <!-- Proyek Baru -->
+    <div class="menu-item" data-feature="Proyek Baru">
+      <svg class="menu-icon" viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="30" stroke="#007bff" stroke-width="4" fill="none"/>
+        <line x1="32" y1="20" x2="32" y2="44" stroke="#007bff" stroke-width="4"/>
+        <line x1="20" y1="32" x2="44" y2="32" stroke="#007bff" stroke-width="4"/>
+      </svg>
+      <div class="menu-text">Proyek Baru</div>
+    </div>
+
+    <!-- Buka File Proyek -->
+    <div class="menu-item" data-feature="Buka File Proyek">
+      <svg class="menu-icon" viewBox="0 0 64 64">
+        <path d="M10 12 H26 L30 20 H54 V52 H10 Z" fill="none" stroke="#007bff" stroke-width="3"/>
+        <rect x="18" y="28" width="28" height="4" fill="#007bff"/>
+        <rect x="18" y="36" width="28" height="4" fill="#007bff"/>
+      </svg>
+      <div class="menu-text">Buka Proyek</div>
+    </div>
+  </div>
+
+  <!-- Slide Panel -->
+  <div id="slidePanel">
+    <div id="slideHeader">Proyek Tersimpan</div>
+    <ul id="projectsList"></ul>
+    <button id="btnClosePanel">Tutup</button>
+  </div>
+
+  <footer>© 2025 Bangunku</footer>
+
+  <script>
+    const slidePanel = document.getElementById('slidePanel');
+    const projectsList = document.getElementById('projectsList');
+    const btnClosePanel = document.getElementById('btnClosePanel');
+
+    document.querySelector('[data-feature="Proyek Baru"]').addEventListener('click', () => {
+      window.location.href = 'proyek.html';
+    });
+
+    document.querySelector('[data-feature="Buka File Proyek"]').addEventListener('click', () => {
+      loadProjectsList();
+      slidePanel.classList.add('show');
+    });
+
+    btnClosePanel.addEventListener('click', () => {
+      slidePanel.classList.remove('show');
+    });
+
+    function loadProjectsList() {
+      projectsList.innerHTML = '';
+      const keys = Object.keys(localStorage).filter(k => k.startsWith('bangunku:proyek:'));
+      if (keys.length === 0) {
+        projectsList.innerHTML = '<li style="color:#666; cursor:default;">Tidak ada proyek tersimpan</li>';
+      } else {
+        keys.forEach(key => {
+          const projectName = key.replace('bangunku:proyek:', '');
+          const li = document.createElement('li');
+          li.textContent = projectName;
+          li.addEventListener('click', () => {
+            window.location.href = `proyek.html?load=${encodeURIComponent(projectName)}`;
+          });
+          const btn = document.createElement('button');
+          btn.textContent = 'Hapus';
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (confirm(`Hapus proyek "${projectName}"?`)) {
+              localStorage.removeItem(key);
+              loadProjectsList();
+            }
+          });
+          li.appendChild(btn);
+          projectsList.appendChild(li);
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>
