@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bangunku - Detail Proyek</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f0f2f5;
+    color: #222;
+    padding: 20px;
+    min-height: 100vh;
+    user-select: none;
+  }
+  h1 {
+    font-weight: 600;
+    font-size: 22px;
+    color: #1a3d7c;
+    margin-bottom: 20px;
+    user-select: text;
+    text-align: center;
+  }
+  #btnBack {
+    background: #1a3d7c;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 15px;
+    user-select: none;
+    display: inline-block;
+  }
+  #btnBack:hover,
+  #btnBack:focus {
+    background: #153062;
+    outline: none;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    font-size: 14px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  }
+  thead {
+    background: #1a3d7c;
+    color: white;
+  }
+  th, td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  tbody tr:hover {
+    background-color: #f3f9ff;
+  }
+  #totalRow {
+    background-color: #dbe7fb;
+    font-weight: 700;
+  }
+
+  /* Responsive scroll for wide tables */
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  #btnSimpan {
+    margin-top: 20px;
+    background: #1a3d7c;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    user-select: none;
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #btnSimpan:hover,
+  #btnSimpan:focus {
+    background: #153062;
+    outline: none;
+  }
+
+  /* Hapus tombol icon */
+  .btnHapus {
+    background: transparent;
+    border: none;
+    color: #c0392b;
+    font-size: 18px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .btnHapus:hover,
+  .btnHapus:focus {
+    color: #922b21;
+    outline: none;
+  }
+</style>
+</head>
+<body>
+
+<h1>Detail Proyek</h1>
+<button id="btnBack" aria-label="Kembali ke Menu Utama">← Kembali</button>
+
+<div class="table-wrapper" role="region" aria-label="Tabel RAB Proyek">
+  <table aria-describedby="totalRow">
+    <thead>
+      <tr>
+        <th>Nama Ruangan</th>
+        <th>Jenis Pekerjaan</th>
+        <th>Kebutuhan Bahan</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody id="tabelBody">
+      <!-- Data isi tabel muncul di sini -->
+    </tbody>
+    <tfoot>
+      <tr id="totalRow">
+        <td colspan="2">Total Semua Bahan:</td>
+        <td id="totalBahan" colspan="2">0</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<button id="btnSimpan">Simpan Proyek</button>
+
+<script>
+  // Ambil query string nama proyek
+  const urlParams = new URLSearchParams(window.location.search);
+  const namaProyek = urlParams.get('nama') || 'Proyek Baru';
+
+  const tabelBody = document.getElementById('tabelBody');
+  const totalBahanCell = document.getElementById('totalBahan');
+  const btnBack = document.getElementById('btnBack');
+  const btnSimpan = document.getElementById('btnSimpan');
+
+  // Load data proyek dari localStorage
+  function loadData() {
+    const dataJSON = localStorage.getItem('proyek_' + namaProyek);
+    if (!dataJSON) return [];
+
+    try {
+      return JSON.parse(dataJSON);
+    } catch {
+      return [];
+    }
+  }
+
+  // Simpan data proyek ke localStorage
+  function saveData(data) {
+    localStorage.setItem('proyek_' + namaProyek, JSON.stringify(data));
+  }
+
+  // Update daftar proyek di localStorage
+  function updateDaftarProyek() {
+    let daftar = JSON.parse(localStorage.getItem('daftarProyek') || '[]');
+    if (!daftar.includes(namaProyek)) {
+      daftar.push(namaProyek);
+      localStorage.setItem('daftarProyek', JSON.stringify(daftar));
+    }
+  }
+
+  // Render isi tabel
+  function renderTable(data) {
+    tabelBody.innerHTML = '';
+    if (data.length === 0) {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 4;
+      td.style.textAlign = 'center';
+      td.textContent = 'Belum ada data perhitungan.';
+      tr.appendChild(td);
+      tabelBody.appendChild(tr);
+      totalBahanCell.textContent = '0';
+      return;
+    }
+
+    let totalBahan = 0;
+    data.forEach((item, idx) => {
+      const tr = document.createElement('tr');
+
+      // Nama Ruangan
+      const tdRuangan = document.createElement('td');
+      tdRuangan.textContent = item.namaRuangan || '-';
+      tr.appendChild(tdRuangan);
+
+      // Jenis Pekerjaan
+      const tdPekerjaan = document.createElement('td');
+      tdPekerjaan.textContent = item.jenisPekerjaan || '-';
+      tr.appendChild(tdPekerjaan);
+
+      // Kebutuhan Bahan
+      const tdKebutuhan = document.createElement('td');
+      tdKebutuhan.textContent = item.kebutuhanBahan || '-';
+      tr.appendChild(tdKebutuhan);
+
+      // Aksi (hapus)
+      const tdAksi = document.createElement('td');
+      const btnHapus = document.createElement('button');
+      btnHapus.className = 'btnHapus';
+      btnHapus.setAttribute('aria-label', `Hapus baris ${idx + 1}`);
+      btnHapus.innerHTML = '&times;';
+      btnHapus.onclick = () => {
+        data.splice(idx, 1);
+        saveData(data);
+        renderTable(data);
+      };
+      tdAksi.appendChild(btnHapus);
+      tr.appendChild(tdAksi);
+
+      tabelBody.appendChild(tr);
+
+      // Hitung total bahan (anggap kebutuhan bahan angka, parsing dari string)
+      const angka = parseFloat(item.kebutuhanBahan);
+      if (!isNaN(angka)) {
+        totalBahan += angka;
+      }
+    });
+
+    totalBahanCell.textContent = totalBahan.toFixed(2);
+  }
+
+  // Load data dan render
+  let dataProyek = loadData();
+  renderTable(dataProyek);
+  updateDaftarProyek();
+
+  btnBack.onclick = () => {
+    window.location.href = 'index.html';
+  };
+
+  btnSimpan.onclick = () => {
+    // Sudah otomatis tersimpan ke localStorage, kita kasih alert saja
+    alert(`Proyek "${namaProyek}" telah disimpan.`);
+  };
+</script>
+
+</body>
+</html>
