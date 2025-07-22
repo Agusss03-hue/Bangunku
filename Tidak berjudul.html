@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tabel RAB</title>
+  <!-- Google Fonts Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- Link style.css dari repo lo -->
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* tambahan minor supaya tabel rapih dan tombol kecil */
+    .container {
+      padding: 1rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .button-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    button {
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      color: white;
+      background-color: #007bff;
+      transition: background-color 0.3s ease;
+    }
+    button:hover, button:focus {
+      background-color: #0056b3;
+      outline: none;
+    }
+    .table-container {
+      overflow-x: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+      background: white;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 14px;
+      min-width: 600px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    th {
+      background-color: #e9ecef;
+      font-weight: 700;
+      color: #004085;
+    }
+    td button {
+      background-color: #dc3545;
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 6px;
+    }
+    td button:hover {
+      background-color: #a71d2a;
+    }
+    /* Slide panel revisi */
+    .slide {
+      position: fixed;
+      left: -100%;
+      top: 0;
+      width: 80%;
+      max-width: 320px;
+      height: 100%;
+      background: #fff;
+      box-shadow: 2px 0 14px rgba(0, 0, 0, 0.2);
+      transition: left 0.3s ease;
+      z-index: 10000;
+      padding: 1.2rem 1rem 4rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .slide.show {
+      left: 0;
+    }
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .slide-header h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #004085;
+    }
+    /* Tombol kembali */
+    .btn-back {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 40px;
+      background: #007bff;
+      color: white;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgb(0 0 0 / 0.15);
+      transition: background-color 0.3s ease;
+      z-index: 10001;
+    }
+    .btn-back:hover, .btn-back:focus {
+      background-color: #0056b3;
+      outline: none;
+    }
+    /* List saved projects */
+    #savedProjects {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+    #savedProjects li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0.5rem;
+      border-bottom: 1px solid #ddd;
+      font-weight: 600;
+      color: #004085;
+      font-size: 14px;
+    }
+    #savedProjects li button {
+      font-size: 12px;
+      margin-left: 6px;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    #savedProjects li button.edit {
+      background-color: #17a2b8;
+      color: white;
+    }
+    #savedProjects li button.edit:hover {
+      background-color: #117a8b;
+    }
+    #savedProjects li button.delete {
+      background-color: #dc3545;
+      color: white;
+    }
+    #savedProjects li button.delete:hover {
+      background-color: #a71d2a;
+    }
+    #savedProjects li button.pdf {
+      background-color: #28a745;
+      color: white;
+    }
+    #savedProjects li button.pdf:hover {
+      background-color: #1e7e34;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1 style="margin:0; padding:1rem; text-align:center; color:#004085; font-family: 'Montserrat', sans-serif;">
+      Tabel RAB
+    </h1>
+  </header>
+
+  <main class="container" role="main">
+    <div class="button-row">
+      <button id="btnTambahMaterial" type="button" aria-haspopup="true" aria-controls="slideMaterial">Tambah Perhitungan Material</button>
+      <button id="btnSimpanProyek" type="button">Simpan Proyek</button>
+    </div>
+    <div class="table-container" role="region" aria-label="Tabel Rencana Anggaran Biaya">
+      <table aria-describedby="tableDescription" id="rabTable">
+        <caption id="tableDescription" class="sr-only">Daftar perhitungan dan kebutuhan bahan</caption>
+        <thead>
+          <tr>
+            <th>Nama Ruangan</th>
+            <th>Pekerjaan</th>
+            <th>Kebutuhan Bahan</th>
+            <th>Opsi</th>
+          </tr>
+        </thead>
+        <tbody id="rabBody"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Slide Panel Material Options -->
+  <section class="slide" id="slideMaterial" aria-modal="true" role="dialog" aria-labelledby="materialTitle" tabindex="-1" aria-hidden="true">
+    <div class="slide-header">
+      <h3 id="materialTitle">Perhitungan Material</h3>
+    </div>
+    <ul id="materialOptions" role="listbox" tabindex="0" aria-label="Daftar pilihan perhitungan material">
+      <li tabindex="0" role="option" data-page="perhitungan_pondasi.html">Perhitungan Material Pondasi</li>
+      <li tabindex="0" role="option" data-page="perhitungan_sloof.html">Perhitungan Material Sloof</li>
+      <li tabindex="0" role="option" data-page="perhitungan_dinding.html">Perhitungan Material Dinding</li>
+      <li tabindex="0" role="option" data-page="perhitungan_cat.html">Perhitungan Material Cat</li>
+      <li tabindex="0" role="option" data-page="perhitungan_atap.html">Perhitungan Material Atap</li>
+      <li tabindex="0" role="option" data-page="perhitungan_plafon.html">Perhitungan Material Plafon</li>
+      <li tabindex="0" role="option" data-page="perhitungan_keramik.html">Perhitungan Material Keramik</li>
+    </ul>
+    <button class="btn-back" aria-label="Kembali ke halaman utama" id="btnBackMaterial">Kembali</button>
+  </section>
+
+  <!-- Slide Panel Saved Projects -->
+  <section class="slide" id="slideProjects" aria-modal="true" role="dialog" aria-labelledby="projectsTitle" tabindex="-1" aria-hidden="true">
+    <div class="slide-header">
+      <h3 id="projectsTitle">Proyek Tersimpan</h3>
+    </div>
+    <ul id="savedProjects" role="list"></ul>
+    <button class="btn-back" aria-label="Kembali ke halaman utama" id="btnBackProjects">Kembali</button>
+  </section>
+
+<script>
+  let rabData = [];
+
+  // Fungsi render tabel RAB
+  function renderTable() {
+    const tbody = document.getElementById('rabBody');
+    tbody.innerHTML = '';
+    rabData.forEach((row, index) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${row.nama}</td>
+        <td>${row.pekerjaan}</td>
+        <td>${row.bahan}</td>
+        <td><button aria-label="Hapus baris ke-${index + 1}" onclick="hapusBaris(${index})">✕</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function hapusBaris(index) {
+    rabData.splice(index, 1);
+    renderTable();
+  }
+
+  // Simpan proyek ke localStorage
+  function simpanProyek() {
+    if (rabData.length === 0) {
+      alert('Tidak ada data yang disimpan.');
+      return;
+    }
+    const name = prompt('Beri nama untuk proyek ini:');
+    if (!name) return;
+    localStorage.setItem(`project_${name}`, JSON.stringify(rabData));
+    alert('Proyek berhasil disimpan.');
+  }
+
+  // Tampilkan slide panel material
+  const slideMaterial = document.getElementById('slideMaterial');
+  const slideProjects = document.getElementById('slideProjects');
+  const btnTambahMaterial = document.getElementById('btnTambahMaterial');
+  const btnSimpanProyek = document.getElementById('btnSimpanProyek');
+  const btnBackMaterial = document.getElementById('btnBackMaterial');
+  const btnBackProjects = document.getElementById('btnBackProjects');
+  const materialOptions = document.getElementById('materialOptions');
+  const savedProjects = document.getElementById('savedProjects');
+
+  btnTambahMaterial.addEventListener('click', () => {
+    slideMaterial.setAttribute('aria-hidden', 'false');
+    slideMaterial.focus();
+    slideMaterial.classList.add('show');
+    btnTambahMaterial.setAttribute('aria-expanded', 'true');
+  });
+
+  btnBackMaterial.addEventListener('click', () => {
+    slideMaterial.setAttribute('aria-hidden', 'true');
+    slideMaterial.classList.remove('show');
+    btnTambahMaterial.setAttribute('aria-expanded', 'false');
+    btnTambahMaterial.focus();
+  });
+
+  btnSimpanProyek.addEventListener('click', simpanProyek);
+
+  // Navigasi opsi material ke halaman terkait
+  materialOptions.querySelectorAll('li').forEach(li => {
+    li.addEventListener('click', () => {
+      const page = li.getAttribute('data-page');
+      if (page) window.location.href = page;
+    });
+    li.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        li.click();
+      }
+    });
+  });
+
+  // Tampilkan slide proyek tersimpan
+  function bukaSlideProjects() {
+  // Fungsi buka slide proyek tersimpan
+  function bukaSlideProjects() {
+    // Reset list
+    savedProjects.innerHTML = '';
+
+    // Ambil semua project dari localStorage
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('project_')) {
+        const name = key.replace('project_', '');
+        const li = document.createElement('li');
+        li.textContent = name;
+
+        // Tombol Edit
+        const btnEdit = document.createElement('button');
+        btnEdit.className = 'edit';
+        btnEdit.textContent = 'Edit';
+        btnEdit.setAttribute('aria-label', `Edit proyek ${name}`);
+        btnEdit.addEventListener('click', () => {
+          const data = localStorage.getItem(key);
+          if (data) {
+            rabData = JSON.parse(data);
+            renderTable();
+            tutupSlideProjects();
+          }
+        });
+
+        // Tombol Export PDF (placeholder)
+        const btnExport = document.createElement('button');
+        btnExport.className = 'pdf';
+        btnExport.textContent = 'PDF';
+        btnExport.setAttribute('aria-label', `Ekspor proyek ${name} ke PDF`);
+        btnExport.addEventListener('click', () => {
+          alert('Fitur ekspor PDF akan segera tersedia.');
+        });
+
+        // Tombol Hapus
+        const btnDelete = document.createElement('button');
+        btnDelete.className = 'delete';
+        btnDelete.textContent = 'Hapus';
+        btnDelete.setAttribute('aria-label', `Hapus proyek ${name}`);
+        btnDelete.addEventListener('click', () => {
+          if (confirm(`Hapus proyek "${name}"?`)) {
+            localStorage.removeItem(key);
+            bukaSlideProjects();
+          }
+        });
+
+        li.appendChild(btnEdit);
+        li.appendChild(btnExport);
+        li.appendChild(btnDelete);
+        savedProjects.appendChild(li);
+      }
+    });
+
+    slideProjects.setAttribute('aria-hidden', 'false');
+    slideProjects.classList.add('show');
+    slideProjects.focus();
+  }
+
+  // Tutup slide proyek tersimpan
+  function tutupSlideProjects() {
+    slideProjects.setAttribute('aria-hidden', 'true');
+    slideProjects.classList.remove('show');
+    btnTambahMaterial.focus();
+  }
+
+  // Tombol kembali slide proyek tersimpan
+  btnBackProjects.addEventListener('click', tutupSlideProjects);
+
+  // Event listener untuk membuka slide proyek tersimpan jika mau (misal, tombol khusus nanti)
+  // Jika perlu tombol buka proyek, tinggal uncomment ini:
+  // document.getElementById('btnBukaProyek').addEventListener('click', bukaSlideProjects);
+
+  // Inisialisasi render table jika ada data sementara dari halaman input_material (sessionStorage)
+  window.addEventListener('DOMContentLoaded', () => {
+    const data = sessionStorage.getItem('rab_temp');
+    if (data) {
+      try {
+        const parsed = JSON.parse(data);
+        rabData.push(parsed);
+        renderTable();
+        sessionStorage.removeItem('rab_temp');
+      } catch (e) {
+        console.error('Gagal parsing data sementara:', e);
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
