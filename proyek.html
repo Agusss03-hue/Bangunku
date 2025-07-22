@@ -3,53 +3,55 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tabel RAB</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>Tabel RAB</header>  <div class="container">
+  <header class="header">
+    Tabel RAB
+  </header>  <div class="container">
     <div class="button-row">
-      <button onclick="showMaterialSlide()">Tambah Perhitungan Material</button>
-    </div>
-    <div class="table-container">
-      <table id="rabTable">
-        <thead>
-          <tr>
-            <th>Nama Ruangan</th>
-            <th>Pekerjaan</th>
-            <th>Kebutuhan Bahan</th>
-            <th>Opsi</th>
-          </tr>
-        </thead>
-        <tbody id="rabBody"></tbody>
-      </table>
-    </div>
-  </div><button id="btnSaveProject" onclick="saveProject()">Simpan Proyek</button>
+      <button onclick="openSlideMaterial()">Tambah Perhitungan Material</button>
+      <button onclick="saveProject()" class="float-btn">Simpan Proyek</button>
+    </div><div class="table-container">
+  <table id="rabTable" class="styled-table">
+    <thead>
+      <tr>
+        <th>Nama Ruangan</th>
+        <th>Pekerjaan</th>
+        <th>Kebutuhan Bahan</th>
+        <th>Opsi</th>
+      </tr>
+    </thead>
+    <tbody id="rabBody"></tbody>
+  </table>
+</div>
 
-  <div class="slide" id="materialSlide">
-    <h2 class="slideTitle">Pilih Material</h2>
-    <ul class="slideOptions">
-      <li onclick="navigateTo('pondasi')">Material Pondasi</li>
-      <li onclick="navigateTo('sloof')">Material Sloof</li>
-      <li onclick="navigateTo('dinding')">Material Dinding</li>
-      <li onclick="navigateTo('cat')">Material Cat</li>
-      <li onclick="navigateTo('atap')">Material Atap</li>
-      <li onclick="navigateTo('plafon')">Material Plafon</li>
-      <li onclick="navigateTo('keramik')">Material Keramik</li>
+  </div>  <!-- Slide Material -->  <div class="slide" id="materialSlide">
+    <h2 class="slide-title">Pilih Jenis Perhitungan</h2>
+    <ul class="slide-options">
+      <li onclick="redirect('material_pondasi.html')">Perhitungan Material Pondasi</li>
+      <li onclick="redirect('material_sloof.html')">Perhitungan Material Sloof</li>
+      <li onclick="redirect('material_dinding.html')">Perhitungan Material Dinding</li>
+      <li onclick="redirect('material_cat.html')">Perhitungan Material Cat</li>
+      <li onclick="redirect('material_atap.html')">Perhitungan Material Atap</li>
+      <li onclick="redirect('material_plafon.html')">Perhitungan Material Plafon</li>
+      <li onclick="redirect('material_keramik.html')">Perhitungan Material Keramik</li>
     </ul>
-    <button class="btnBack" onclick="closeMaterialSlide()">Kembali</button>
+    <button class="btn-kembali" onclick="closeSlide('materialSlide')">Kembali</button>
   </div>  <script>
     let rabData = [];
 
-    function showMaterialSlide() {
+    function openSlideMaterial() {
       document.getElementById("materialSlide").classList.add("show");
     }
 
-    function closeMaterialSlide() {
-      document.getElementById("materialSlide").classList.remove("show");
+    function closeSlide(id) {
+      document.getElementById(id).classList.remove("show");
     }
 
-    function navigateTo(page) {
-      window.location.href = `perhitungan_${page}.html`;
+    function redirect(page) {
+      window.location.href = page;
     }
 
     function saveProject() {
@@ -71,7 +73,7 @@
           <td>${row.nama}</td>
           <td>${row.pekerjaan}</td>
           <td>${row.bahan}</td>
-          <td><button onclick="hapusBaris(${index})">✕</button></td>
+          <td><button class="delete-btn" onclick="hapusBaris(${index})">Hapus</button></td>
         `;
         tbody.appendChild(tr);
       });
