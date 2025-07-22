@@ -1,333 +1,248 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Bangunku - Tabel Proyek</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet" />
-<style>
-  body {
-    margin:0; font-family: 'Poppins', sans-serif;
-    background:#f0f2f5; color:#222;
-    min-height: 100vh;
-  }
-  header {
-    background:#1565c0; color:#fff; padding: 18px 20px;
-    font-weight: 700; font-size: 22px; display: flex; justify-content: space-between; align-items: center;
-  }
-  header button {
-    background: none; border: none; font-size: 24px; color: #fff; cursor: pointer;
-    user-select: none;
-  }
-  main {
-    padding: 20px;
-    max-width: 960px; margin: 0 auto;
-  }
-  #tblProyek {
-    width: 100%; border-collapse: collapse; margin-bottom: 12px;
-    font-size: 13px;
-  }
-  #tblProyek thead {
-    background:#1565c0; color:#fff;
-  }
-  #tblProyek th, #tblProyek td {
-    border: 1px solid #ccc; padding: 6px 8px; text-align: center;
-  }
-  #tblProyek tbody tr:hover {
-    background: #e3ebfc;
-  }
-  .btnDelete {
-    background: #e74c3c; border: none; color: white;
-    border-radius: 4px; padding: 4px 7px;
-    cursor: pointer;
-    font-weight: 700;
-    user-select: none;
-  }
-  .btnDelete:hover {
-    background: #c0392b;
-  }
-  #totalRow {
-    background: #c3d1f9; font-weight: 700;
-  }
-  #btnTambahHitung {
-    background: #1565c0; color: white; border: none;
-    padding: 12px 20px; border-radius: 10px;
-    font-weight: 700; cursor: pointer; user-select: none;
-    margin-bottom: 20px;
-    box-shadow: 0 5px 12px rgba(21,101,192,0.5);
-    transition: background-color 0.3s ease;
-  }
-  #btnTambahHitung:hover {
-    background: #0f4a8c;
-  }
-  #btnSimpan {
-    background: #2ecc71; color: white; border: none;
-    padding: 12px 20px; border-radius: 10px;
-    font-weight: 700; cursor: pointer; user-select: none;
-    box-shadow: 0 5px 12px rgba(46,204,113,0.5);
-    transition: background-color 0.3s ease;
-  }
-  #btnSimpan:hover {
-    background: #27ae60;
-  }
-  /* Slide kiri */
-  #slideMenu {
-    position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
-    background: #f5f7fa; box-shadow: 2px 0 12px rgba(0,0,0,0.15);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    z-index: 10000;
-    display: flex; flex-direction: column;
-  }
-  #slideMenu.show {
-    transform: translateX(0);
-  }
-  #slideHeader {
-    padding: 20px; font-weight: 700; font-size: 20px; color: #1565c0;
-    border-bottom: 1px solid #ccc;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  #slideCloseBtn {
-    background: none; border: none; font-size: 24px; cursor: pointer;
-    color: #1565c0;
-  }
-  #perhitunganList {
-    list-style: none; padding: 10px 20px; margin: 0; flex-grow: 1;
-    overflow-y: auto;
-  }
-  #perhitunganList li {
-    padding: 12px 10px; margin-bottom: 8px;
-    background: #e3ebfc; border-radius: 8px;
-    cursor: pointer; font-weight: 600; color: #1565c0;
-    user-select: none;
-    transition: background-color 0.2s ease;
-  }
-  #perhitunganList li:hover, #perhitunganList li:focus {
-    background: #b0c4f7;
-    outline: none;
-  }
-  /* Responsive */
-  @media (max-width: 600px) {
-    main {
-      padding: 12px 10px;
-      max-width: 100vw;
-    }
-    #tblProyek {
-      font-size: 11px;
-    }
-    #btnTambahHitung, #btnSimpan {
-      width: 100%;
-      box-sizing: border-box;
-    }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Proyek Bangunku</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f2f2f2;
+      color: #333;
+      padding: 0;
+    }header {
+  background-color: #004085;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.container {
+  padding: 1rem;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 14px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #e9ecef;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+button {
+  padding: 0.6rem 1rem;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.slide {
+  position: fixed;
+  left: -100%;
+  top: 0;
+  width: 80%;
+  max-width: 300px;
+  height: 100%;
+  background: #fff;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: left 0.3s ease;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.slide.show {
+  left: 0;
+}
+
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slide-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.slide-close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.slide ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+.slide li {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slide li button {
+  background: #dc3545;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+}
+
+  </style>
 </head>
-<body>
-
-<header>
-  <div>Proyek RAB</div>
-  <button id="btnBack" title="Kembali ke menu utama" aria-label="Kembali">&larr;</button>
-</header>
-
-<main>
-  <button id="btnTambahHitung" aria-haspopup="true" aria-controls="slideMenu" aria-expanded="false">Tambah Perhitungan Material</button>
-  <table id="tblProyek" aria-label="Tabel Rencana Anggaran Biaya proyek">
+<body>  <header>
+    Proyek Bangunku
+  </header>  <div class="container">
+    <div class="button-row">
+      <button onclick="showMaterialOptions()">Tambah Perhitungan Material</button>
+      <button onclick="saveProject()">Simpan Proyek</button>
+      <button onclick="openSlide()">Buka Proyek Tersimpan</button>
+    </div><div class="table-container">
+  <table id="rabTable">
     <thead>
       <tr>
         <th>Nama Ruangan</th>
-        <th>Jenis Pekerjaan</th>
+        <th>Pekerjaan</th>
         <th>Kebutuhan Bahan</th>
-        <th>Aksi</th>
+        <th>Opsi</th>
       </tr>
     </thead>
-    <tbody id="tbodyProyek">
-      <!-- Data baris proyek akan di-generate di sini -->
+    <tbody id="rabBody">
+      <!-- baris perhitungan muncul di sini -->
     </tbody>
-    <tfoot>
-      <tr id="totalRow">
-        <td colspan="2">Total Semua Bahan</td>
-        <td id="totalKebutuhan">0</td>
-        <td></td>
-      </tr>
-    </tfoot>
   </table>
-  <button id="btnSimpan">Simpan Perhitungan</button>
-</main>
+</div>
 
-<nav id="slideMenu" aria-label="Menu Perhitungan Material">
-  <header id="slideHeader">
-    <span>Perhitungan Material</span>
-    <button id="slideCloseBtn" aria-label="Tutup menu perhitungan">&times;</button>
-  </header>
-  <ul id="perhitunganList" tabindex="0" role="listbox" aria-label="Daftar jenis perhitungan">
-    <li tabindex="0" data-job="Perhitungan Bahan Pondasi">Perhitungan Bahan Pondasi</li>
-    <li tabindex="0" data-job="Perhitungan Perbesian Sloof">Perhitungan Perbesian Sloof</li>
-    <li tabindex="0" data-job="Perhitungan Dinding">Perhitungan Dinding</li>
-    <li tabindex="0" data-job="Perhitungan Plester & Aci">Perhitungan Plester & Aci</li>
-    <li tabindex="0" data-job="Perhitungan Cat">Perhitungan Cat</li>
-  </ul>
-</nav>
+  </div>  <div class="slide" id="slidePanel">
+    <div class="slide-header">
+      <h3>Proyek Tersimpan</h3>
+      <button class="slide-close" onclick="closeSlide()">&times;</button>
+    </div>
+    <ul id="savedProjects"></ul>
+  </div>  <script>
+    let rabData = [];
 
-<script>
-(() => {
-  // Ambil elemen penting
-  const tbodyProyek = document.getElementById('tbodyProyek');
-  const btnTambahHitung = document.getElementById('btnTambahHitung');
-  const slideMenu = document.getElementById('slideMenu');
-  const slideCloseBtn = document.getElementById('slideCloseBtn');
-  const perhitunganList = document.getElementById('perhitunganList');
-  const btnSimpan = document.getElementById('btnSimpan');
-  const totalKebutuhanCell = document.getElementById('totalKebutuhan');
-  const btnBack = document.getElementById('btnBack');
-
-  // Ambil id proyek dari url param ?id=
-  const urlParams = new URLSearchParams(window.location.search);
-  const proyekId = urlParams.get('id');
-  if (!proyekId) {
-    alert('ID proyek tidak ditemukan. Kembali ke menu utama.');
-    window.location.href = 'index.html';
-    return;
-  }
-
-  // Fungsi ambil data proyek dari localStorage
-  function getProyekData() {
-    const semuaProyek = JSON.parse(localStorage.getItem('bangunku_proyek_list') || '[]');
-    const proyek = semuaProyek.find(p => p.id === proyekId);
-    if (!proyek) {
-      alert('Data proyek tidak ditemukan. Kembali ke menu utama.');
-      window.location.href = 'index.html';
-      return null;
+    function showMaterialOptions() {
+      window.location.href = 'input_material.html'; // alihkan ke halaman input perhitungan
     }
-    if (!proyek.data) proyek.data = [];
-    return proyek;
-  }
 
-  // Render tabel data proyek
-  function renderTabel() {
-    tbodyProyek.innerHTML = '';
-    const proyek = getProyekData();
-    if (!proyek) return;
+    function saveProject() {
+      const name = prompt("Beri nama untuk proyek ini:");
+      if (name && rabData.length > 0) {
+        localStorage.setItem(`project_${name}`, JSON.stringify(rabData));
+        alert("Proyek berhasil disimpan.");
+      } else {
+        alert("Tidak ada data yang disimpan.");
+      }
+    }
 
-    let totalKebutuhan = 0;
+    function renderTable() {
+      const tbody = document.getElementById("rabBody");
+      tbody.innerHTML = '';
+      rabData.forEach((row, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.nama}</td>
+          <td>${row.pekerjaan}</td>
+          <td>${row.bahan}</td>
+          <td><button onclick="hapusBaris(${index})">✕</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
 
-    proyek.data.forEach((item, idx) => {
-      const tr = document.createElement('tr');
+    function hapusBaris(index) {
+      rabData.splice(index, 1);
+      renderTable();
+    }
 
-      // Nama Ruangan
-      const tdRuangan = document.createElement('td');
-      tdRuangan.textContent = item.namaRuangan;
-      tr.appendChild(tdRuangan);
+    function openSlide() {
+      const slide = document.getElementById("slidePanel");
+      slide.classList.add("show");
+      const savedList = document.getElementById("savedProjects");
+      savedList.innerHTML = '';
+      Object.keys(localStorage).forEach(k => {
+        if (k.startsWith("project_")) {
+          const name = k.replace("project_", "");
+          const li = document.createElement("li");
+          const btnDelete = document.createElement("button");
+          const btnEdit = document.createElement("button");
+          const btnExport = document.createElement("button");
 
-      // Jenis Pekerjaan
-      const tdPekerjaan = document.createElement('td');
-      tdPekerjaan.textContent = item.jenisPekerjaan;
-      tr.appendChild(tdPekerjaan);
+          li.textContent = name;
 
-      // Kebutuhan Bahan (misal dalam satuan pcs atau sesuai)
-      const tdKebutuhan = document.createElement('td');
-      tdKebutuhan.textContent = item.kebutuhanBahan;
-      tr.appendChild(tdKebutuhan);
+          btnDelete.textContent = "Hapus";
+          btnDelete.onclick = () => {
+            if (confirm("Hapus proyek " + name + "?")) {
+              localStorage.removeItem(k);
+              openSlide();
+            }
+          };
 
-      // Aksi (hapus)
-      const tdAksi = document.createElement('td');
-      const btnHapus = document.createElement('button');
-      btnHapus.textContent = '✕';
-      btnHapus.className = 'btnDelete';
-      btnHapus.setAttribute('aria-label', `Hapus baris ${idx + 1}`);
-      btnHapus.onclick = () => {
-        if(confirm(`Hapus perhitungan "${item.jenisPekerjaan}" di ruang "${item.namaRuangan}"?`)) {
-          proyek.data.splice(idx, 1);
-          saveProyekData(proyek);
-          renderTabel();
+          btnEdit.textContent = "Edit";
+          btnEdit.onclick = () => {
+            const data = localStorage.getItem(k);
+            rabData = JSON.parse(data);
+            renderTable();
+            closeSlide();
+          };
+
+          btnExport.textContent = "PDF";
+          btnExport.onclick = () => {
+            alert("Fitur ekspor PDF akan ditambahkan nanti.");
+          };
+
+          li.appendChild(btnEdit);
+          li.appendChild(btnExport);
+          li.appendChild(btnDelete);
+          savedList.appendChild(li);
         }
-      };
-      tdAksi.appendChild(btnHapus);
-      tr.appendChild(tdAksi);
+      });
+    }
 
-      tbodyProyek.appendChild(tr);
+    function closeSlide() {
+      document.getElementById("slidePanel").classList.remove("show");
+    }
 
-      // Asumsikan kebutuhan bahan numerik, jumlahkan total
-      const kebutuhanAngka = parseFloat(item.kebutuhanBahan) || 0;
-      totalKebutuhan += kebutuhanAngka;
+    window.addEventListener('DOMContentLoaded', () => {
+      // Cek jika user kembali dari halaman input_material dan ada data disimpan sementara
+      const data = sessionStorage.getItem("rab_temp");
+      if (data) {
+        const parsed = JSON.parse(data);
+        rabData.push(parsed);
+        renderTable();
+        sessionStorage.removeItem("rab_temp");
+      }
     });
-
-    totalKebutuhanCell.textContent = totalKebutuhan.toFixed(2);
-  }
-
-  // Simpan data proyek ke localStorage
-  function saveProyekData(proyek) {
-    const semuaProyek = JSON.parse(localStorage.getItem('bangunku_proyek_list') || '[]');
-    const idx = semuaProyek.findIndex(p => p.id === proyek.id);
-    if (idx !== -1) {
-      semuaProyek[idx] = proyek;
-      localStorage.setItem('bangunku_proyek_list', JSON.stringify(semuaProyek));
-    }
-  }
-
-  // Buka slide menu perhitungan
-  btnTambahHitung.onclick = () => {
-    slideMenu.classList.add('show');
-    btnTambahHitung.setAttribute('aria-expanded', 'true');
-    perhitunganList.focus();
-  };
-
-  slideCloseBtn.onclick = () => {
-    slideMenu.classList.remove('show');
-    btnTambahHitung.setAttribute('aria-expanded', 'false');
-    btnTambahHitung.focus();
-  };
-
-  // Tangani klik pilihan perhitungan
-  perhitunganList.addEventListener('click', e => {
-    const li = e.target.closest('li');
-    if (!li) return;
-    const jenisPekerjaan = li.getAttribute('data-job');
-    slideMenu.classList.remove('show');
-    btnTambahHitung.setAttribute('aria-expanded', 'false');
-
-    // Minta input data perhitungan dari user
-    const namaRuangan = prompt('Masukkan nama ruangan untuk perhitungan ini:');
-    if (!namaRuangan || namaRuangan.trim() === '') {
-      alert('Nama ruangan harus diisi.');
-      btnTambahHitung.focus();
-      return;
-    }
-    // Input kebutuhan bahan (untuk demo angka, nanti bisa diganti form input halaman lain)
-    const kebutuhanInput = prompt(`Masukkan kebutuhan bahan untuk "${jenisPekerjaan}" di ruangan "${namaRuangan}":\nGunakan angka (misal 12.5)`);
-    let kebutuhanBahan = parseFloat(kebutuhanInput);
-    if (isNaN(kebutuhanBahan) || kebutuhanBahan < 0) {
-      alert('Input kebutuhan bahan harus berupa angka positif.');
-      btnTambahHitung.focus();
-      return;
-    }
-
-    // Ambil data proyek, tambahkan baris baru, simpan dan render
-    const proyek = getProyekData();
-    proyek.data.push({
-      namaRuangan: namaRuangan.trim(),
-      jenisPekerjaan,
-      kebutuhanBahan: kebutuhanBahan.toFixed(2)
-    });
-    saveProyekData(proyek);
-    renderTabel();
-  });
-
-  btnSimpan.onclick = () => {
-    alert('Perhitungan berhasil disimpan!');
-    // Sudah otomatis tersimpan saat tambah baris
-  };
-
-  btnBack.onclick = () => {
-    if(confirm('Kembali ke menu utama? Pastikan data sudah disimpan.')) {
-      window.location.href = 'index.html';
-    }
-  };
-
-  // Render pertama kali saat load halaman
-  renderTabel();
-
-})();
-</script>
-
-</body>
+  </script></body>
 </html>
