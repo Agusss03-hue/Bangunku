@@ -1,159 +1,134 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Proyek Bangunku</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/heroicons@2.0.16/24/outline/index.js"></script>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f2f2f2;
-      color: #333;
-      padding: 0;
-    }header {
-  background-color: #004085;
-  color: white;
-  padding: 1rem;
-  text-align: center;
-  font-size: 1.2rem;
-}
+    .container {
+      padding: 1rem;
+    }
 
-.container {
-  padding: 1rem;
-}
+    .table-container {
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
 
-.table-container {
-  overflow-x: auto;
-}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1rem;
-  font-size: 14px;
-}
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
 
-th, td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: left;
-}
+    th {
+      background-color: #e9ecef;
+    }
 
-th {
-  background-color: #e9ecef;
-}
+    .floating-save {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      padding: 12px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
 
-.button-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
+    .floating-save:hover {
+      background: #0056b3;
+    }
 
-button {
-  padding: 0.6rem 1rem;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-}
+    #slidePanel .slide-header {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #004085;
+    }
 
-button:hover {
-  background-color: #0056b3;
-}
+    #slidePanel ul {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 1rem;
+    }
 
-.slide {
-  position: fixed;
-  left: -100%;
-  top: 0;
-  width: 80%;
-  max-width: 300px;
-  height: 100%;
-  background: #fff;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-  transition: left 0.3s ease;
-  z-index: 1000;
-  padding: 1rem;
-}
+    #slidePanel li {
+      padding: 0.5rem;
+      border-bottom: 1px solid #ddd;
+    }
 
-.slide.show {
-  left: 0;
-}
+    #slidePanel li button {
+      margin-left: 6px;
+      background: #007bff;
+      font-size: 0.8rem;
+      padding: 6px 10px;
+    }
 
-.slide-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.slide-header h3 {
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-.slide-close {
-  background: none;
-  border: none;
-  font-size: 1.4rem;
-  cursor: pointer;
-}
-
-.slide ul {
-  list-style: none;
-  padding-left: 0;
-  margin-top: 1rem;
-}
-
-.slide li {
-  padding: 0.5rem;
-  border-bottom: 1px solid #ddd;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.slide li button {
-  background: #dc3545;
-  font-size: 0.8rem;
-  padding: 0.3rem 0.6rem;
-}
-
+    .menu-icon-sm {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
   </style>
 </head>
-<body>  <header>
-    Proyek Bangunku
-  </header>  <div class="container">
-    <div class="button-row">
-      <button onclick="showMaterialOptions()">Tambah Perhitungan Material</button>
-      <button onclick="saveProject()">Simpan Proyek</button>
-      <button onclick="openSlide()">Buka Proyek Tersimpan</button>
-    </div><div class="table-container">
-  <table id="rabTable">
-    <thead>
-      <tr>
-        <th>Nama Ruangan</th>
-        <th>Pekerjaan</th>
-        <th>Kebutuhan Bahan</th>
-        <th>Opsi</th>
-      </tr>
-    </thead>
-    <tbody id="rabBody">
-      <!-- baris perhitungan muncul di sini -->
-    </tbody>
-  </table>
-</div>
+<body>
 
-  </div>  <div class="slide" id="slidePanel">
-    <div class="slide-header">
-      <h3>Proyek Tersimpan</h3>
-      <button class="slide-close" onclick="closeSlide()">&times;</button>
+  <header style="background-color: #004085; color: white; padding: 1rem; text-align: center;">
+    Proyek Bangunku
+  </header>
+
+  <div class="container">
+
+    <button onclick="showMaterialOptions()" style="margin-top: 1rem; display: inline-flex; align-items: center;">
+      <svg class="menu-icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Tambah Perhitungan Material
+    </button>
+
+    <div class="table-container">
+      <table id="rabTable">
+        <thead>
+          <tr>
+            <th>Nama Ruangan</th>
+            <th>Pekerjaan</th>
+            <th>Kebutuhan Bahan</th>
+            <th>Opsi</th>
+          </tr>
+        </thead>
+        <tbody id="rabBody">
+          <!-- baris perhitungan muncul di sini -->
+        </tbody>
+      </table>
     </div>
+  </div>
+
+  <button class="floating-save" onclick="saveProject()">Simpan Proyek</button>
+
+  <div class="slide" id="slidePanel">
+    <div class="slide-header">Proyek Tersimpan</div>
     <ul id="savedProjects"></ul>
-  </div>  <script>
+    <button id="btnBack" onclick="closeSlide()">Kembali</button>
+  </div>
+
+  <script>
     let rabData = [];
 
     function showMaterialOptions() {
-      window.location.href = 'input_material.html'; // alihkan ke halaman input perhitungan
+      window.location.href = 'input_material.html';
     }
 
     function saveProject() {
@@ -175,7 +150,7 @@ button:hover {
           <td>${row.nama}</td>
           <td>${row.pekerjaan}</td>
           <td>${row.bahan}</td>
-          <td><button onclick="hapusBaris(${index})">✕</button></td>
+          <td><button onclick="hapusBaris(${index})">Hapus</button></td>
         `;
         tbody.appendChild(tr);
       });
@@ -187,44 +162,20 @@ button:hover {
     }
 
     function openSlide() {
-      const slide = document.getElementById("slidePanel");
-      slide.classList.add("show");
+      document.getElementById("slidePanel").classList.add("show");
       const savedList = document.getElementById("savedProjects");
       savedList.innerHTML = '';
       Object.keys(localStorage).forEach(k => {
         if (k.startsWith("project_")) {
           const name = k.replace("project_", "");
           const li = document.createElement("li");
-          const btnDelete = document.createElement("button");
-          const btnEdit = document.createElement("button");
-          const btnExport = document.createElement("button");
 
-          li.textContent = name;
-
-          btnDelete.textContent = "Hapus";
-          btnDelete.onclick = () => {
-            if (confirm("Hapus proyek " + name + "?")) {
-              localStorage.removeItem(k);
-              openSlide();
-            }
-          };
-
-          btnEdit.textContent = "Edit";
-          btnEdit.onclick = () => {
-            const data = localStorage.getItem(k);
-            rabData = JSON.parse(data);
-            renderTable();
-            closeSlide();
-          };
-
-          btnExport.textContent = "PDF";
-          btnExport.onclick = () => {
-            alert("Fitur ekspor PDF akan ditambahkan nanti.");
-          };
-
-          li.appendChild(btnEdit);
-          li.appendChild(btnExport);
-          li.appendChild(btnDelete);
+          li.innerHTML = `
+            <strong>${name}</strong><br/>
+            <button onclick="editProject('${k}')">Edit</button>
+            <button onclick="exportProject('${k}')">PDF</button>
+            <button onclick="deleteProject('${k}')">Hapus</button>
+          `;
           savedList.appendChild(li);
         }
       });
@@ -234,15 +185,33 @@ button:hover {
       document.getElementById("slidePanel").classList.remove("show");
     }
 
+    function editProject(kunci) {
+      const data = localStorage.getItem(kunci);
+      rabData = JSON.parse(data);
+      renderTable();
+      closeSlide();
+    }
+
+    function deleteProject(kunci) {
+      if (confirm("Hapus proyek ini?")) {
+        localStorage.removeItem(kunci);
+        openSlide();
+      }
+    }
+
+    function exportProject(kunci) {
+      alert("Fitur ekspor PDF akan ditambahkan nanti.");
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
-      // Cek jika user kembali dari halaman input_material dan ada data disimpan sementara
       const data = sessionStorage.getItem("rab_temp");
       if (data) {
-        const parsed = JSON.parse(data);
-        rabData.push(parsed);
+        rabData.push(JSON.parse(data));
         renderTable();
         sessionStorage.removeItem("rab_temp");
       }
     });
-  </script></body>
+  </script>
+
+</body>
 </html>
