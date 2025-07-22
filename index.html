@@ -1,101 +1,13 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bangunku</title>
+  <!-- Pakai CSS eksternal dari file style.css -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: #f0f2f5;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    #menuUtama {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 40px;
-    }
-    .menu-item {
-      background: #fff;
-      padding: 24px;
-      border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-    .menu-item:hover {
-      transform: translateY(-4px);
-    }
-    .menu-icon {
-      font-size: 48px;
-      color: #007bff;
-      margin-bottom: 10px;
-    }
-    .menu-text {
-      font-size: 16px;
-      font-weight: 600;
-      color: #007bff;
-    }
-    #slideProyek {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      max-width: 320px;
-      height: 100%;
-      background: #fff;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      z-index: 999;
-      padding: 20px;
-      overflow-y: auto;
-    }
-    #slideProyek.show {
-      transform: translateX(0);
-    }
-    .proyek-card {
-      background: #f9f9f9;
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin-bottom: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .proyek-title {
-      font-weight: 600;
-      color: #333;
-    }
-    .proyek-actions button {
-      margin-right: 8px;
-      padding: 6px 12px;
-      font-size: 14px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .edit-btn { background: #007bff; color: #fff; }
-    .delete-btn { background: #dc3545; color: #fff; }
-    .pdf-btn { background: #28a745; color: #fff; }
-    #closeSlide {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 24px;
-      cursor: pointer;
-    }
-  </style>
 </head>
 <body>
   <div id="menuUtama">
@@ -107,17 +19,24 @@
       <div class="menu-icon">📁</div>
       <div class="menu-text">Buka Proyek</div>
     </div>
-  </div>  <div id="slideProyek">
-    <div id="closeSlide" onclick="tutupSlideProyek()">&times;</div>
-    <h3>Proyek Tersimpan</h3>
+  </div>
+
+  <div id="slideProyek" role="dialog" aria-modal="true" aria-labelledby="judulSlideProyek" tabindex="-1">
+    <div id="closeSlide" onclick="tutupSlideProyek()" role="button" aria-label="Tutup">&times;</div>
+    <h3 id="judulSlideProyek">Proyek Tersimpan</h3>
     <div id="daftarProyek"></div>
-  </div>  <script>
+  </div>
+
+  <script>
     function bukaSlideProyek() {
-      document.getElementById('slideProyek').classList.add('show');
+      const slide = document.getElementById('slideProyek');
+      slide.classList.add('show');
+      slide.focus();
       renderProyek();
     }
     function tutupSlideProyek() {
-      document.getElementById('slideProyek').classList.remove('show');
+      const slide = document.getElementById('slideProyek');
+      slide.classList.remove('show');
     }
     function renderProyek() {
       const daftar = document.getElementById('daftarProyek');
@@ -153,8 +72,9 @@
       }
     }
     function eksporPDF(kunci) {
-      alert('Fitur ekspor PDF akan ditambahkan.');
-      // Integrasi html2pdf.js nanti
+      alert('Fitur ekspor PDF akan ditambahkan nanti.');
+      // Nanti bisa integrasi html2pdf.js
     }
-  </script></body>
+  </script>
+</body>
 </html>
