@@ -1,169 +1,160 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Bangunku - Menu Utama</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet" />
-<style>
-  body {
-    margin:0; background:#d3d7db; font-family: 'Poppins', sans-serif;
-    height: 100vh; display: flex; justify-content: center; align-items: center;
-    user-select: none;
-  }
-  #menuUtama {
-    display: flex; flex-direction: column; gap: 50px; max-width: 250px; width: 100%;
-  }
-  .menu-item {
-    background: #ffffffcc; border-radius: 16px; box-shadow: 0 6px 12px rgba(0,0,0,0.12);
-    cursor: pointer; user-select: none;
-    display: flex; flex-direction: column; align-items: center; padding: 18px 20px;
-    transition: box-shadow 0.3s ease, transform 0.2s ease;
-  }
-  .menu-item:hover, .menu-item:focus {
-    box-shadow: 0 12px 24px rgba(0,0,0,0.18);
-    transform: translateY(-5px);
-    outline: none;
-  }
-  .menu-icon {
-    width: 80px; height: 80px; margin-bottom: 12px; fill: #1565c0;
-  }
-  .menu-text {
-    font-weight: 700; font-size: 18px; color: #1565c0; user-select: none;
-  }
-
-  /* Slide menu kiri */
-  #slideMenu {
-    position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
-    background: #f5f7fa; box-shadow: 2px 0 12px rgba(0,0,0,0.15);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    z-index: 10000;
-    display: flex; flex-direction: column;
-  }
-  #slideMenu.show {
-    transform: translateX(0);
-  }
-  #slideHeader {
-    padding: 20px; font-weight: 700; font-size: 20px; color: #1565c0;
-    border-bottom: 1px solid #ccc;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  #slideCloseBtn {
-    background: none; border: none; font-size: 24px; cursor: pointer;
-    color: #1565c0;
-  }
-  #proyekList {
-    list-style: none; padding: 10px 20px; margin: 0; flex-grow: 1;
-    overflow-y: auto;
-  }
-  #proyekList li {
-    padding: 12px 10px; margin-bottom: 8px;
-    background: #e3ebfc; border-radius: 8px;
-    cursor: pointer; font-weight: 600; color: #1565c0;
-    user-select: none;
-    transition: background-color 0.2s ease;
-  }
-  #proyekList li:hover, #proyekList li:focus {
-    background: #b0c4f7;
-    outline: none;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bangunku</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #menuUtama {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+    .menu-item {
+      background: #fff;
+      padding: 24px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    .menu-item:hover {
+      transform: translateY(-4px);
+    }
+    .menu-icon {
+      font-size: 48px;
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+    .menu-text {
+      font-size: 16px;
+      font-weight: 600;
+      color: #007bff;
+    }
+    #slideProyek {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      max-width: 320px;
+      height: 100%;
+      background: #fff;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 999;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    #slideProyek.show {
+      transform: translateX(0);
+    }
+    .proyek-card {
+      background: #f9f9f9;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .proyek-title {
+      font-weight: 600;
+      color: #333;
+    }
+    .proyek-actions button {
+      margin-right: 8px;
+      padding: 6px 12px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .edit-btn { background: #007bff; color: #fff; }
+    .delete-btn { background: #dc3545; color: #fff; }
+    .pdf-btn { background: #28a745; color: #fff; }
+    #closeSlide {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-
-  <main id="menuUtama" role="main" aria-label="Menu utama aplikasi Bangunku">
-    <div class="menu-item" id="btnProyekBaru" tabindex="0" role="button" aria-label="Mulai proyek baru">
-      <svg class="menu-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-        <rect x="28" y="12" width="8" height="40" rx="2"/>
-        <rect x="12" y="28" width="40" height="8" rx="2"/>
-      </svg>
+  <div id="menuUtama">
+    <div class="menu-item" onclick="window.location.href='proyek.html'">
+      <div class="menu-icon">📐</div>
       <div class="menu-text">Proyek Baru</div>
     </div>
-
-    <div class="menu-item" id="btnBukaProyek" tabindex="0" role="button" aria-label="Buka proyek yang tersimpan">
-      <svg class="menu-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-        <path d="M8 16h48v32H8z" fill="none" stroke="#1565c0" stroke-width="3" rx="6" ry="6"/>
-        <path d="M20 24h24v16H20z" fill="#1565c0" opacity="0.2"/>
-        <circle cx="32" cy="32" r="6" fill="none" stroke="#1565c0" stroke-width="3"/>
-      </svg>
-      <div class="menu-text">Buka File Proyek</div>
+    <div class="menu-item" onclick="bukaSlideProyek()">
+      <div class="menu-icon">📁</div>
+      <div class="menu-text">Buka Proyek</div>
     </div>
-  </main>
-
-  <nav id="slideMenu" aria-label="Daftar proyek tersimpan">
-    <header id="slideHeader">
-      <span>Proyek Tersimpan</span>
-      <button id="slideCloseBtn" aria-label="Tutup menu proyek">&times;</button>
-    </header>
-    <ul id="proyekList" tabindex="0" aria-live="polite" aria-relevant="additions"></ul>
-  </nav>
-
-<script>
-  (function() {
-    const btnProyekBaru = document.getElementById('btnProyekBaru');
-    const btnBukaProyek = document.getElementById('btnBukaProyek');
-    const slideMenu = document.getElementById('slideMenu');
-    const slideCloseBtn = document.getElementById('slideCloseBtn');
-    const proyekList = document.getElementById('proyekList');
-
-    // Load list proyek tersimpan dari localStorage
-    function loadProyekList() {
-      proyekList.innerHTML = '';
-      const data = JSON.parse(localStorage.getItem('bangunku_proyek_list') || '[]');
-      if (data.length === 0) {
-        const li = document.createElement('li');
-        li.textContent = 'Belum ada proyek tersimpan';
-        li.style.cursor = 'default';
-        proyekList.appendChild(li);
+  </div>  <div id="slideProyek">
+    <div id="closeSlide" onclick="tutupSlideProyek()">&times;</div>
+    <h3>Proyek Tersimpan</h3>
+    <div id="daftarProyek"></div>
+  </div>  <script>
+    function bukaSlideProyek() {
+      document.getElementById('slideProyek').classList.add('show');
+      renderProyek();
+    }
+    function tutupSlideProyek() {
+      document.getElementById('slideProyek').classList.remove('show');
+    }
+    function renderProyek() {
+      const daftar = document.getElementById('daftarProyek');
+      daftar.innerHTML = '';
+      const semuaKey = Object.keys(localStorage);
+      const proyekKey = semuaKey.filter(k => k.startsWith('proyek_'));
+      if (proyekKey.length === 0) {
+        daftar.innerHTML = '<p>Tidak ada proyek tersimpan.</p>';
         return;
       }
-      data.forEach(proyek => {
-        const li = document.createElement('li');
-        li.textContent = proyek.nama;
-        li.tabIndex = 0;
-        li.onclick = () => {
-          window.location.href = `proyek.html?id=${encodeURIComponent(proyek.id)}`;
-        };
-        li.onkeydown = (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            li.onclick();
-          }
-        };
-        proyekList.appendChild(li);
+      proyekKey.forEach(k => {
+        const data = JSON.parse(localStorage.getItem(k));
+        const div = document.createElement('div');
+        div.className = 'proyek-card';
+        div.innerHTML = `
+          <div class="proyek-title">${data.nama}</div>
+          <div class="proyek-actions">
+            <button class="edit-btn" onclick="editProyek('${k}')">Edit</button>
+            <button class="delete-btn" onclick="hapusProyek('${k}')">Hapus</button>
+            <button class="pdf-btn" onclick="eksporPDF('${k}')">PDF</button>
+          </div>
+        `;
+        daftar.appendChild(div);
       });
     }
-
-    btnProyekBaru.onclick = () => {
-      // Untuk proyek baru, kita buat ID baru unik dan nama default kosong
-      const newId = `proyek_${Date.now()}`;
-      // Simpan proyek kosong dulu
-      const proyekListData = JSON.parse(localStorage.getItem('bangunku_proyek_list') || '[]');
-      proyekListData.push({ id: newId, nama: 'Proyek Baru' });
-      localStorage.setItem('bangunku_proyek_list', JSON.stringify(proyekListData));
-      // Redirect ke halaman proyek.html dengan param id
-      window.location.href = `proyek.html?id=${encodeURIComponent(newId)}`;
-    };
-
-    btnBukaProyek.onclick = () => {
-      loadProyekList();
-      slideMenu.classList.add('show');
-      proyekList.focus();
-    };
-
-    slideCloseBtn.onclick = () => {
-      slideMenu.classList.remove('show');
-    };
-
-    // Keyboard accessibility
-    btnProyekBaru.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') btnProyekBaru.click();
-    });
-    btnBukaProyek.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') btnBukaProyek.click();
-    });
-  })();
-</script>
-
-</body>
+    function editProyek(kunci) {
+      window.location.href = `proyek.html?load=${encodeURIComponent(kunci)}`;
+    }
+    function hapusProyek(kunci) {
+      if (confirm('Yakin ingin menghapus proyek ini?')) {
+        localStorage.removeItem(kunci);
+        renderProyek();
+      }
+    }
+    function eksporPDF(kunci) {
+      alert('Fitur ekspor PDF akan ditambahkan.');
+      // Integrasi html2pdf.js nanti
+    }
+  </script></body>
 </html>
