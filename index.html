@@ -2,41 +2,44 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bangunku</title>
-  <!-- Pakai CSS eksternal dari file style.css -->
-  <link rel="stylesheet" href="style.css" />
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- Link ke file style.css di folder sama -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="menuUtama">
-    <div class="menu-item" onclick="window.location.href='proyek.html'">
-      <div class="menu-icon">📐</div>
+  <div id="menuUtama" role="menu" aria-label="Menu Utama">
+    <div class="menu-item" data-feature="Proyek Baru" tabindex="0" role="menuitem" aria-haspopup="false" onclick="window.location.href='proyek.html'">
+      <svg class="menu-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false" fill="none" stroke="#2980b9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="10" y="12" width="44" height="40" rx="8" ry="8"/>
+        <line x1="32" y1="20" x2="32" y2="44"/>
+        <line x1="20" y1="32" x2="44" y2="32"/>
+      </svg>
       <div class="menu-text">Proyek Baru</div>
     </div>
-    <div class="menu-item" onclick="bukaSlideProyek()">
-      <div class="menu-icon">📁</div>
+    <div class="menu-item" data-feature="Buka Proyek" tabindex="0" role="menuitem" aria-haspopup="true" onclick="bukaSlideProyek()">
+      <svg class="menu-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false" fill="none" stroke="#2980b9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="12" y="12" width="40" height="40" rx="6" ry="6"/>
+        <path d="M20 36 L28 28 L36 36 L44 28"/>
+      </svg>
       <div class="menu-text">Buka Proyek</div>
     </div>
   </div>
 
-  <div id="slideProyek" role="dialog" aria-modal="true" aria-labelledby="judulSlideProyek" tabindex="-1">
-    <div id="closeSlide" onclick="tutupSlideProyek()" role="button" aria-label="Tutup">&times;</div>
-    <h3 id="judulSlideProyek">Proyek Tersimpan</h3>
-    <div id="daftarProyek"></div>
-  </div>
+  <nav id="slideProyek" aria-label="Submenu">
+    <button id="btnCloseSlide" aria-label="Tutup" onclick="tutupSlideProyek()">×</button>
+    <h2>Proyek Tersimpan</h2>
+    <div id="daftarProyek" tabindex="0"></div>
+  </nav>
 
   <script>
     function bukaSlideProyek() {
-      const slide = document.getElementById('slideProyek');
-      slide.classList.add('show');
-      slide.focus();
+      document.getElementById('slideProyek').classList.add('show');
       renderProyek();
     }
     function tutupSlideProyek() {
-      const slide = document.getElementById('slideProyek');
-      slide.classList.remove('show');
+      document.getElementById('slideProyek').classList.remove('show');
     }
     function renderProyek() {
       const daftar = document.getElementById('daftarProyek');
@@ -72,8 +75,7 @@
       }
     }
     function eksporPDF(kunci) {
-      alert('Fitur ekspor PDF akan ditambahkan nanti.');
-      // Nanti bisa integrasi html2pdf.js
+      alert('Fitur ekspor PDF sedang dikembangkan.');
     }
   </script>
 </body>
